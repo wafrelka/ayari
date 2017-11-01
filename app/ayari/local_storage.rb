@@ -104,6 +104,18 @@ module Ayari
 
 		end
 
+		def get_all_object_info_list()
+
+			@table.all.map{ |obj|
+				ObjectInfo.new(
+					obj[:remote_path],
+					File.join(@base_path, obj[:local_name]),
+					obj[:hash],
+				)
+			}
+
+		end
+
 		def create_untracked_file()
 
 			path = generate_random_file_path()

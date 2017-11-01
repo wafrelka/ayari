@@ -1,6 +1,6 @@
 require 'rspec_helper'
 require 'ayari/local_storage'
-require 'ayari/dropbox_hash'
+require 'ayari/dropbox/hasher'
 
 
 describe Ayari::LocalStorage do
@@ -46,7 +46,7 @@ describe Ayari::LocalStorage do
 
 			storage.register_object(path, '/remote-name')
 			info = storage.get_object_info('/remote-name')
-			hash = Ayari::DropboxHash.compute_hash(path)
+			hash = Ayari::Dropbox::Hasher.compute_hash(path)
 
 			expect(info&.remote_path).to eq '/remote-name'
 			expect(info&.local_path).to eq_path path

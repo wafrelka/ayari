@@ -1,10 +1,10 @@
 require 'open-uri'
 require 'tempfile'
 require 'rspec_helper'
-require 'ayari/dropbox_hash'
+require 'ayari/dropbox/hasher'
 
 
-describe Ayari::DropboxHash do
+describe Ayari::Dropbox::Hasher do
 
 	SAMPLE_URI = 'https://www.dropbox.com/static/images/developers/milky-way-nasa.jpg'
 	SAMPLE_HASH = '485291fa0ee50c016982abbfa943957bcd231aae0492ccbaa22c58e3997b35e0'
@@ -20,7 +20,7 @@ describe Ayari::DropboxHash do
 			tmp_fp.sync
 			path = tmp_fp.path
 
-			expect(Ayari::DropboxHash.compute_hash(path)).to eq SAMPLE_HASH
+			expect(Ayari::Dropbox::Hasher.compute_hash(path)).to eq SAMPLE_HASH
 
 		end
 

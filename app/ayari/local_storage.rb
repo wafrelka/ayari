@@ -1,7 +1,7 @@
 require 'securerandom'
 require 'fileutils'
 require 'sequel'
-require 'ayari/dropbox_hash'
+require 'ayari/dropbox/hasher'
 
 
 module Ayari
@@ -57,7 +57,7 @@ module Ayari
 					raise FileNotFoundError.new(path)
 				end
 
-				hash = DropboxHash.compute_hash(path)
+				hash = Dropbox::Hasher.compute_hash(path)
 
 				@table.insert_conflict(:replace).insert(
 					remote_path: remote_path,

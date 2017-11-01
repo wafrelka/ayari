@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'mime-types'
 gem 'sqlite3'
 gem 'sequel'
 gem 'faraday', git: "https://github.com/lostisland/faraday", branch: "1.0"

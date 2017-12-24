@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'kramdown'
 gem 'sinatra'
+gem 'haml'
 gem 'mime-types'
 gem 'sqlite3'
 gem 'sequel'

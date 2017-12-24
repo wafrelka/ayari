@@ -1,8 +1,10 @@
 require 'uri'
 require 'mime/types'
 require 'sinatra/base'
+require 'haml'
 require 'ayari/local_storage'
 require 'ayari/routing_rules'
+require 'ayari/processor'
 
 
 module Ayari
@@ -14,6 +16,27 @@ module Ayari
 			storage_path = ENV['AYARI_STORAGE_PATH'] || 'data'
 
 			set :storage, LocalStorage.new(storage_path)
+
+		end
+
+		helpers do
+
+			def render_haml(remote_path, locals={})
+
+				obj = settings.storage.get_object_info(remote_path)
+				if obj.nil?
+					raise Sinatra::NotFound
+				end
+
+				begin
+					txt = File.read(obj.local_path)
+				rescue Errno::NOENT
+					raise Sinatra::NotFound
+				end
+
+				haml txt, locals: locals
+
+			end
 
 		end
 
@@ -34,14 +57,36 @@ module Ayari
 			end
 
 			obj, fname = selected
+			ext = File.extname(fname)
 
-			types = MIME::Types.type_for(fname)
+			case ext
+			when '.md'
 
-			if types.length > 0
-				content_type types[0].to_s
+				begin
+					txt = File.read(obj.local_path)
+				rescue Errno::NOENT
+					raise Sinatra::NotFound
+				end
+
+				template_rel_path, opts = Ayari::Processor::MarkdownProcessor::process_text(txt)
+				template_path = File.absolute_path(template_rel_path, File.dirname(obj.remote_path))
+				render_haml(template_path, opts)
+
+			when '.haml'
+
+				render_haml(obj.remote_path)
+
+			else
+
+				types = MIME::Types.type_for(fname)
+
+				if types.length > 0
+					content_type types[0].to_s
+				end
+
+				send_file File.absolute_path(obj.local_path)
+
 			end
-
-			send_file File.absolute_path(obj.local_path)
 
 		end
 

@@ -11,6 +11,8 @@ module Ayari
 
 	class Router < Sinatra::Base
 
+		ENCODING = 'UTF-8'
+
 		configure do
 
 			storage_path = ENV['AYARI_STORAGE_PATH'] || 'data'
@@ -29,7 +31,7 @@ module Ayari
 				end
 
 				begin
-					txt = File.read(obj.local_path)
+					txt = File.read(obj.local_path, encoding: ENCODING)
 				rescue Errno::NOENT
 					raise Sinatra::NotFound
 				end
@@ -63,7 +65,7 @@ module Ayari
 			when '.md'
 
 				begin
-					txt = File.read(obj.local_path)
+					txt = File.read(obj.local_path, encoding: ENCODING)
 				rescue Errno::NOENT
 					raise Sinatra::NotFound
 				end

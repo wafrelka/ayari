@@ -1,5 +1,6 @@
 require 'kramdown'
 require 'yaml'
+require 'hashie'
 
 
 module Ayari
@@ -20,12 +21,15 @@ module Ayari
 				end
 
 				template_path = params.dig(YAML_TEMPLATE_PATH_ELEM)
-				md_opts = params.dig(YAML_MD_OPTS_ELEM)
+				md_opts = params.dig(YAML_MD_OPTS_ELEM) || {}
 				opts = params
 
-				if !(template_path.is_a?(String) && (md_opts.nil? || md_opts.is_a?(Hash)))
+				if !(template_path.is_a?(String) && md_opts.is_a?(Hash))
 					raise InvalidContent.new
 				end
+
+				opts = Hashie.symbolize_keys(opts)
+				md_opts = Hashie.symbolize_keys(md_opts)
 
 				[template_path, md_opts, opts]
 
@@ -69,7 +73,7 @@ module Ayari
 				end
 
 				content = kram_doc.to_html
-				opts.merge({content: content})
+				opts.merge!({content: content})
 
 				[template_path, opts]
 

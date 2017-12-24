@@ -130,6 +130,16 @@ describe Ayari::Processor::MarkdownProcessor do
 
 		end
 
+		it 'parses hr elements correctly' do
+
+			new_body = [body, params_mark, body, params_mark].join("\n")
+			txt = [params_mark, params_body, params_mark, new_body].join("\n")
+			res = processor.parse_markdown_text(txt)
+
+			expect(res).to eq [new_body, template_path, md_opts, full_params]
+
+		end
+
 	end
 
 	describe '#process_text' do

@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'kramdown'
 gem 'sinatra'
 gem 'mime-types'
 gem 'sqlite3'

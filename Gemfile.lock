@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/lostisland/faraday
-  revision: ff946763693e7e67f704a138ac57ae208cadd4a5
+  revision: ea9309d7d33cfcab06856f0330970451d88de508
   branch: 1.0
   specs:
     faraday (0.13.1)
@@ -9,7 +9,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    daemons (1.2.5)
+    daemons (1.2.6)
     diff-lcs (1.3)
     eventmachine (1.2.5)
     faraday_middleware (0.12.2)
@@ -36,7 +36,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.0)
-    sequel (5.2.0)
+    sequel (5.3.0)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)

@@ -24,26 +24,24 @@ module Ayari
 			req_path = URI.decode(raw_req_path)
 			candidates = RoutingRules.get_candidates(req_path)
 
-			candidates.each do |c|
+			selected = candidates
+				.lazy
+				.map{ |c| [storage.get_object_info(c), File.basename(c)] }
+				.find{ |obj, fname| ! obj.nil? }
 
-				obj = storage.get_object_info(c)
-				fname = File.basename(c)
-
-				if obj.nil?
-					next
-				end
-
-				types = MIME::Types.type_for(fname)
-
-				if types.length > 0
-					content_type types[0].to_s
-				end
-
-				send_file File.absolute_path(obj.local_path)
-
+			if selected.nil?
+				raise Sinatra::NotFound
 			end
 
-			raise Sinatra::NotFound
+			obj, fname = selected
+
+			types = MIME::Types.type_for(fname)
+
+			if types.length > 0
+				content_type types[0].to_s
+			end
+
+			send_file File.absolute_path(obj.local_path)
 
 		end
 

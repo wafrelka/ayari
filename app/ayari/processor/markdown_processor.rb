@@ -64,7 +64,7 @@ module Ayari
 			def self.process_text(txt)
 
 				body, template_path, md_opts, opts = parse_markdown_text(txt)
-				md_opts ||= {}
+				md_opts[:auto_ids] ||= false
 
 				begin
 					kram_doc = Kramdown::Document.new(body, **md_opts)

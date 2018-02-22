@@ -72,11 +72,15 @@ describe Ayari::Processor::MarkdownProcessor do
 	describe '#parse_markdown_text' do
 
 		let(:template_path) { '/path/to/template' }
-		let(:md_opts) { { key_a: 'value_a' } }
-		let(:other_params) { { key_x: 'value_x' } }
+		let(:md_opts) { { key_a: 'value_a', key_b: { key_c: 'value_c' } } }
+		let(:other_params) { { key_x: 'value_x', key_y: { key_z: 123 } } }
 		let(:full_params) { other_params.merge({ template: template_path, opts: md_opts }) }
 
-		let(:params_body) { "template: /path/to/template\nopts: { key_a: value_a }\nkey_x: value_x" }
+		let(:params_body) { "template: /path/to/template\n"\
+			"opts: { key_a: value_a, key_b: { key_c: value_c } }\n"\
+			"key_x: value_x\n"\
+			"key_y: \n"\
+			"  key_z: 123" }
 		let(:params_mark) { '---' }
 		let(:body) { "body\n" * 100 }
 

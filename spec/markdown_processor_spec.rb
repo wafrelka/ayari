@@ -1,3 +1,4 @@
+require 'hashie'
 require 'rspec_helper'
 require 'ayari/processor/markdown_processor'
 
@@ -10,16 +11,17 @@ describe Ayari::Processor::MarkdownProcessor do
 	describe '#parse_markdown_parameters' do
 
 		let(:template_path) { '/path/to/template' }
-		let(:md_opts) { { key_a: 'value_a', key_b: { key_c: 'value_c' } } }
-		let(:other_params) { { key_x: 'value_x', key_y: { key_z: 123 } } }
-		let(:template_key) { 'template' }
-		let(:opts_key) { 'opts' }
+		let(:sym_md_opts) { { key_a: 'value_a', key_b: { key_c: 'value_c' } } }
+		let(:sym_other_params) { { key_x: 'value_x', key_y: { key_z: 123 } } }
+		let(:sym_full_params) { { template: template_path, opts: sym_md_opts }.merge(sym_other_params) }
+
+		let(:template_arg) { { 'template' => template_path } }
+		let(:md_opts_arg) { { 'opts' => Hashie::stringify_keys(sym_md_opts) } }
+		let(:other_params_arg) { Hashie::stringify_keys(sym_other_params) }
 
 		it 'parses `template` option' do
 
-			res = processor.parse_markdown_parameters({
-				template_key => template_path
-			})
+			res = processor.parse_markdown_parameters(template_arg)
 
 			expect(res[0]).to eq template_path
 
@@ -27,32 +29,27 @@ describe Ayari::Processor::MarkdownProcessor do
 
 		it 'parses `opts` option' do
 
-			res = processor.parse_markdown_parameters({
-				template_key => template_path,
-				opts_key => md_opts
-			})
+			res = processor.parse_markdown_parameters(
+				template_arg.merge(md_opts_arg)
+			)
 
-			expect(res[1]).to eq md_opts
+			expect(res[1]).to eq sym_md_opts
 
 		end
 
 		it 'parses other parameters' do
 
-			params = {
-				template_key => template_path,
-				opts_key => md_opts
-			}.merge(other_params)
+			res = processor.parse_markdown_parameters(
+				template_arg.merge(md_opts_arg).merge(other_params_arg)
+			)
 
-			res = processor.parse_markdown_parameters(params)
-
-			expect(res[2]).to eq params
+			expect(res[2]).to eq sym_full_params
 
 		end
 
 		it 'raises an exception when `template_path` is missing' do
 
-			params = { opts_key => md_opts }
-			expect{ processor.parse_markdown_parameters(params) }.to raise_error(error)
+			expect{ processor.parse_markdown_parameters(md_opts_arg) }.to raise_error(error)
 
 		end
 
@@ -65,7 +62,7 @@ describe Ayari::Processor::MarkdownProcessor do
 
 		it 'raises an exception when `opts` are not a `Hash` object' do
 
-			params = { template_key => template_path, opts_key => 'invalid' }
+			params = template_arg.merge(md_opts_arg).merge({'opts' => 'invalid'})
 			expect{ processor.parse_markdown_parameters(params) }.to raise_error(error)
 
 		end
@@ -75,9 +72,10 @@ describe Ayari::Processor::MarkdownProcessor do
 	describe '#parse_markdown_text' do
 
 		let(:template_path) { '/path/to/template' }
-		let(:md_opts) { { 'key_a' => 'value_a' } }
-		let(:other_params) { { 'key_x' => 'value_x' } }
-		let(:full_params) { other_params.merge({ 'template' => template_path, 'opts' => md_opts }) }
+		let(:md_opts) { { key_a: 'value_a' } }
+		let(:other_params) { { key_x: 'value_x' } }
+		let(:full_params) { other_params.merge({ template: template_path, opts: md_opts }) }
+
 		let(:params_body) { "template: /path/to/template\nopts: { key_a: value_a }\nkey_x: value_x" }
 		let(:params_mark) { '---' }
 		let(:body) { "body\n" * 100 }

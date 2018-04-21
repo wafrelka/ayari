@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/lostisland/faraday
-  revision: 5f9314fba61fc8142fb35dc86edf600164a29b01
+  revision: 89b336589613a47b426e8cbc84bc20d9d08dd7f1
   branch: 1.0
   specs:
     faraday (0.14.0)
@@ -18,6 +18,7 @@ GEM
       temple (>= 0.8.0)
       tilt
     hashie (3.5.7)
+    json (2.1.0)
     kramdown (1.16.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -40,7 +41,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    sequel (5.5.0)
+    sequel (5.7.1)
     sinatra (2.0.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -62,6 +63,7 @@ DEPENDENCIES
   faraday_middleware
   haml
   hashie
+  json
   kramdown
   mime-types
   rspec

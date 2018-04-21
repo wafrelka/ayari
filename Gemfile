@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'kramdown'
+gem 'json'
 gem 'sinatra'
 gem 'haml'
 gem 'mime-types'

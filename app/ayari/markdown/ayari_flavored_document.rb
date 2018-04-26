@@ -2,7 +2,7 @@ require 'kramdown'
 
 
 module Ayari
-	module Processor
+	module Markdown
 
 		class AyariFlavoredDocument
 

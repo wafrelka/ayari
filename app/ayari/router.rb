@@ -4,7 +4,7 @@ require 'sinatra/base'
 require 'haml'
 require 'ayari/local_storage'
 require 'ayari/routing_rules'
-require 'ayari/processor'
+require 'ayari/markdown'
 
 
 module Ayari
@@ -70,7 +70,7 @@ module Ayari
 					raise Sinatra::NotFound
 				end
 
-				template_rel_path, opts = Ayari::Processor::MarkdownProcessor::process_text(txt)
+				template_rel_path, opts = Ayari::Markdown::Processor::process_text(txt)
 				template_path = File.absolute_path(template_rel_path, File.dirname(obj.remote_path))
 				render_haml(template_path, opts)
 

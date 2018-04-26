@@ -1,15 +1,15 @@
 require 'kramdown'
 require 'yaml'
 require 'hashie'
-require 'ayari/processor/ayari_flavored_document'
+require 'ayari/markdown/ayari_flavored_document'
 
 
 module Ayari
-	module Processor
+	module Markdown
 
 		class InvalidContent < ArgumentError; end
 
-		module MarkdownProcessor
+		module Processor
 
 			YAML_BLOCK_MARK = '---'
 			YAML_TEMPLATE_PATH_ELEM = 'template'

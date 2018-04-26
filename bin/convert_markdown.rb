@@ -1,5 +1,5 @@
 $:.unshift(File.join(File.dirname(File.expand_path(__FILE__)), '..', 'app'))
-require 'ayari/processor'
+require 'ayari'
 
 
 if __FILE__ == $0
@@ -12,7 +12,7 @@ if __FILE__ == $0
 	path = ARGV[0]
 	txt = File.read(path, encoding: "UTF-8")
 
-	template_rel_path, opts = Ayari::Processor::MarkdownProcessor::process_text(txt)
+	template_rel_path, opts = Ayari::Markdown::Processor::process_text(txt)
 
 	puts "template_rel_path: #{template_rel_path}"
 	opts.each do |key, value|

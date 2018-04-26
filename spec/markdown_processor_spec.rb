@@ -1,12 +1,12 @@
 require 'hashie'
 require 'rspec_helper'
-require 'ayari/processor/markdown_processor'
+require 'ayari/markdown/processor'
 
 
-describe Ayari::Processor::MarkdownProcessor do
+describe Ayari::Markdown::Processor do
 
-	let(:processor) { Ayari::Processor::MarkdownProcessor }
-	let(:error) { Ayari::Processor::InvalidContent }
+	let(:processor) { Ayari::Markdown::Processor }
+	let(:error) { Ayari::Markdown::InvalidContent }
 
 	describe '#parse_markdown_parameters' do
 

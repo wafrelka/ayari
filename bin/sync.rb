@@ -10,9 +10,9 @@ if __FILE__ == $0
 	storage_path = ENV['AYARI_STORAGE_PATH'] || 'data'
 
 	if token.nil? && token_file.nil?
-		puts "Dropbox token not provided.\n"
-			"Set AYARI_TOKEN or AYARI_TOKEN_FILE_PATH env variable.\n"
-		exit
+		puts "Dropbox token not provided."
+		puts "Set AYARI_TOKEN or AYARI_TOKEN_FILE_PATH env variable."
+		exit 1
 	end
 
 	if token.nil?

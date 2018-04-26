@@ -1,6 +1,7 @@
 require 'kramdown'
 require 'yaml'
 require 'hashie'
+require 'ayari/processor/ayari_flavored_document'
 
 
 module Ayari
@@ -61,44 +62,6 @@ module Ayari
 
 			end
 
-			def self.manipulate_tree(root, block_elem_name='section')
-
-
-				root.children.each do |ch|
-					manipulate_tree(ch, block_elem_name)
-				end
-
-				new_chs = []
-				st = [[0, new_chs]]
-
-				root.children.each do |ch|
-
-					if ch.type != :header
-						st[-1][1] << ch
-						next
-					end
-
-					level = ch.options[:level]
-
-					node_opts = { category: :block, content_model: :block }
-					node = Kramdown::Element.new(:html_element, block_elem_name, ch.attr, node_opts)
-					h = Kramdown::Element.new(:header, nil, {}, ch.options)
-					h.children = ch.children
-					node.children << h
-
-					while st[-1][0] >= level
-						st.pop
-					end
-
-					st[-1][1] << node
-					st << [level, node.children]
-
-				end
-
-				root.children = new_chs
-
-			end
-
 			def self.process_text(txt)
 
 				body, template_path, md_opts, opts = parse_markdown_text(txt)
@@ -111,10 +74,12 @@ module Ayari
 				end
 
 				if opts[:flavor] == 'ayari'
-					manipulate_tree(kram_doc.root)
+					afm = AyariFlavoredDocument.new(kram_doc)
+					content = afm.doc.to_html
+				else
+					content = kram_doc.to_html
 				end
 
-				content = kram_doc.to_html
 				opts.merge!({content: content})
 
 				[template_path, opts]

@@ -42,6 +42,10 @@ module Ayari
 
 		end
 
+		not_found do
+			'404 Not Found'
+		end
+
 		get /(.*)/ do |raw_req_path|
 
 			storage = settings.storage

@@ -35,6 +35,11 @@ module Ayari
 
 		end
 
+		def self.get_remote_path(path, from)
+			raise StandardError.new("invalid 'from' (#{from})") if ! (from =~ /^\/.*[^\/]$/)
+			abs_path = File.absolute_path(path, File.dirname(from))
+		end
+
 	end
 
 end

@@ -80,4 +80,82 @@ describe Ayari::RoutingRules do
 
 	end
 
+	describe '#get_candidates' do
+
+		context '`from` is a correct absolute path' do
+
+			context '`path` is a correct relative file path' do
+
+				it 'should return the correct path' do
+					path = 'ghi/jkl.txt'
+					from = '/abc/def.txt'
+					expected = '/abc/ghi/jkl.txt'
+					expect(rules.get_remote_path(path, from)).to eq expected
+				end
+
+				it 'should return the correct path when `from` is a direct child of the root' do
+					path = 'ghi/jkl.txt'
+					from = '/def.txt'
+					expected = '/ghi/jkl.txt'
+					expect(rules.get_remote_path(path, from)).to eq expected
+				end
+
+				it 'should handle \'..\' correctly' do
+					path = '../jkl.txt'
+					from = '/abc/def.txt'
+					expected = '/jkl.txt'
+					expect(rules.get_remote_path(path, from)).to eq expected
+				end
+
+				it 'should ignore useless \'..\'' do
+					path = '../../jkl.txt'
+					from = '/abc/def.txt'
+					expected = '/jkl.txt'
+					expect(rules.get_remote_path(path, from)).to eq expected
+				end
+
+			end
+
+			context '`path` is a correct absolute file path' do
+
+				it 'should return the correct path' do
+					path = '/ghi/jkl.txt'
+					from = '/abc/def.txt'
+					expected = '/ghi/jkl.txt'
+					expect(rules.get_remote_path(path, from)).to eq expected
+				end
+
+			end
+
+			context '`path` is a correct relative directory path' do
+
+				it 'should return the correct path' do
+					path = 'ghi/jkl/'
+					from = '/abc/def.txt'
+					expected = '/abc/ghi/jkl'
+					expect(rules.get_remote_path(path, from)).to eq expected
+				end
+
+			end
+
+		end
+
+		context '`from` is invalid' do
+
+			it 'should raise an error when `from` does not start with \'/\'' do
+				path = 'ghi/jkl.txt'
+				from = 'abc/def.txt'
+				expect{rules.get_remote_path(path, from)}.to raise_error(StandardError)
+			end
+
+			it 'should raise an error when `from` ends with \'/\'' do
+				path = 'ghi/jkl.txt'
+				from = '/abc/'
+				expect{rules.get_remote_path(path, from)}.to raise_error(StandardError)
+			end
+
+		end
+
+	end
+
 end

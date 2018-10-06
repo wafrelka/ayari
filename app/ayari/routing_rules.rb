@@ -6,6 +6,7 @@ module Ayari
 			'*',
 			'*.md',
 			'*.haml',
+			'*.erb',
 			'*.html',
 			'*.txt',
 		]
@@ -13,6 +14,7 @@ module Ayari
 		CANDIDATES_FOR_DIR = [
 			'*/index.md',
 			'*/index.haml',
+			'*/index.erb',
 			'*/index.html',
 		]
 

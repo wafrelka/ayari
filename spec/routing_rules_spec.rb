@@ -16,6 +16,7 @@ describe Ayari::RoutingRules do
 				expected = [
 					'/abc/def/index.md',
 					'/abc/def/index.haml',
+					'/abc/def/index.erb',
 					'/abc/def/index.html',
 				]
 
@@ -29,6 +30,7 @@ describe Ayari::RoutingRules do
 				expected = [
 					'/index.md',
 					'/index.haml',
+					'/index.erb',
 					'/index.html',
 				]
 
@@ -47,10 +49,12 @@ describe Ayari::RoutingRules do
 					'/abc/def',
 					'/abc/def.md',
 					'/abc/def.haml',
+					'/abc/def.erb',
 					'/abc/def.html',
 					'/abc/def.txt',
 					'/abc/def/index.md',
 					'/abc/def/index.haml',
+					'/abc/def/index.erb',
 					'/abc/def/index.html',
 				]
 
@@ -65,10 +69,12 @@ describe Ayari::RoutingRules do
 					'/abc/def.txt',
 					'/abc/def.txt.md',
 					'/abc/def.txt.haml',
+					'/abc/def.txt.erb',
 					'/abc/def.txt.html',
 					'/abc/def.txt.txt',
 					'/abc/def.txt/index.md',
 					'/abc/def.txt/index.haml',
+					'/abc/def.txt/index.erb',
 					'/abc/def.txt/index.html',
 				]
 

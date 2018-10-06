@@ -59,6 +59,11 @@ module Ayari
 					@rendering_path = remote_path
 					haml content, locals: locals
 
+				when :erb
+
+					@rendering_path = remote_path
+					erb content, locals: locals, trim: '-'
+
 				else
 
 					raise Sinatra::NotFound
@@ -97,6 +102,8 @@ module Ayari
 				render_content(:md, obj.remote_path)
 			when '.haml'
 				render_content(:haml, obj.remote_path)
+			when '.erb'
+				render_content(:erb, obj.remote_path)
 			else
 				types = MIME::Types.type_for(fname)
 				content_type types[0].to_s if ! types.empty?

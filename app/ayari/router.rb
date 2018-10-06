@@ -16,9 +16,11 @@ module Ayari
 		configure do
 
 			storage_path = ENV['AYARI_STORAGE_PATH'] || 'data'
+			prefix = ENV['AYARI_PREFIX'] || ''
 
 			set :storage, LocalStorage.new(storage_path)
 			set :hidden_pattern, /^_/
+			set :prefix, prefix
 
 		end
 
@@ -83,7 +85,7 @@ module Ayari
 
 			raise Sinatra::NotFound if ! raw_req_path.start_with?('/')
 
-			req_path = URI.decode(raw_req_path)
+			req_path = settings.prefix + URI.decode(raw_req_path)
 			candidates = RoutingRules.get_candidates(req_path)
 
 			selected = candidates

@@ -18,6 +18,7 @@ module Ayari
 			storage_path = ENV['AYARI_STORAGE_PATH'] || 'data'
 
 			set :storage, LocalStorage.new(storage_path)
+			set :hidden_pattern, /^_/
 
 		end
 
@@ -82,15 +83,13 @@ module Ayari
 
 			raise Sinatra::NotFound if ! raw_req_path.start_with?('/')
 
-			storage = settings.storage
-
 			req_path = URI.decode(raw_req_path)
 			candidates = RoutingRules.get_candidates(req_path)
 
 			selected = candidates
 				.lazy
-				.map{ |c| [storage.get_object_info(c), File.basename(c)] }
-				.find{ |obj, fname| ! obj.nil? }
+				.map{ |c| [settings.storage.get_object_info(c), File.basename(c)] }
+				.find{ |obj, fname| ! (obj.nil? || settings.hidden_pattern.match?(fname)) }
 
 			raise Sinatra::NotFound if selected.nil?
 

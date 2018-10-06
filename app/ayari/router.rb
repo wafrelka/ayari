@@ -48,6 +48,8 @@ module Ayari
 
 		get /(.*)/ do |raw_req_path|
 
+			raise Sinatra::NotFound if ! raw_req_path.start_with?('/')
+
 			storage = settings.storage
 
 			req_path = URI.decode(raw_req_path)

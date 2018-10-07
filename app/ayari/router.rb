@@ -87,11 +87,12 @@ module Ayari
 
 			req_path = settings.prefix + URI.decode(raw_req_path)
 			candidates = RoutingRules.get_candidates(req_path)
+			candidates = candidates.reject{ |path| path.split('/').any?{ |frag| settings.hidden_pattern.match?(frag) } }
 
 			selected = candidates
 				.lazy
 				.map{ |c| [settings.storage.get_object_info(c), File.basename(c)] }
-				.find{ |obj, fname| ! (obj.nil? || settings.hidden_pattern.match?(fname)) }
+				.find{ |obj, fname| ! obj.nil? }
 
 			raise Sinatra::NotFound if selected.nil?
 

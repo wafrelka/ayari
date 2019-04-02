@@ -7,7 +7,7 @@ gem 'haml'
 gem 'mime-types'
 gem 'sqlite3'
 gem 'sequel'
-gem 'faraday', git: "https://github.com/lostisland/faraday", branch: "1.0"
+gem 'faraday', git: "https://github.com/lostisland/faraday", branch: "master"
 gem 'faraday_middleware'
 gem 'hashie'
 

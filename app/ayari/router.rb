@@ -105,6 +105,9 @@ module Ayari
 			when '.haml'
 				render_content(:haml, obj.remote_path)
 			when '.erb'
+				actual_fname = File.basename(fname, ".erb")
+				types = MIME::Types.type_for(actual_fname)
+				content_type types[0].to_s if ! types.empty?
 				render_content(:erb, obj.remote_path)
 			else
 				types = MIME::Types.type_for(fname)

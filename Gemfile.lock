@@ -19,7 +19,8 @@ GEM
       tilt
     hashie (3.6.0)
     json (2.2.0)
-    kramdown (2.1.0)
+    kramdown (2.3.1)
+      rexml
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.0331)
@@ -28,6 +29,7 @@ GEM
     rack (2.0.6)
     rack-protection (2.0.5)
       rack
+    rexml (3.2.4)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
